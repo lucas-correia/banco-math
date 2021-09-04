@@ -55,7 +55,7 @@ public class App
         }
     }
 
-    private void sacar(){
+    private void sacar() {
         System.out.println("Digite a conta para saque: ");
         Scanner scan = new Scanner(System.in);
         int numeroConta = scan.nextInt();
