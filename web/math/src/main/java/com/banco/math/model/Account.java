@@ -15,7 +15,13 @@ public class Account {
     private String name;
     private int accountType;
 
-    
+    public Account(int accountNumber, double balance, String document, String name, int accountType) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.document = document;
+        this.name = name;
+        this.accountType = accountType;
+    }
 
     public int getAccountType() {
         return accountType;
