@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 @Entity
 public class Account {
@@ -65,6 +68,11 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public String toJSON() {
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        return gson.toJson(this);
     }
 
 }
