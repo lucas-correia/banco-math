@@ -1,5 +1,6 @@
 package com.banco.math.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,12 +16,15 @@ public class Account {
     private String name;
     private int accountType;
 
-    public Account(int accountNumber, double balance, String document, String name, int accountType) {
-        this.accountNumber = accountNumber;
+    public Account(double balance, String document, String name, int accountType) {
         this.balance = balance;
         this.document = document;
         this.name = name;
         this.accountType = accountType;
+    }
+
+    public Account(){
+
     }
 
     public int getAccountType() {
