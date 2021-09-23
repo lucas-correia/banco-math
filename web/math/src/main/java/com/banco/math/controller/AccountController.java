@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @RequestMapping(path = "/bank")
@@ -28,7 +29,7 @@ public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @PutMapping(path = "/withdraw", produces = "application/json;charset=UTF-8")
+    @PutMapping(path = "/withdraw", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> withdrawFromAccount(@RequestBody AccountResource body) {
 
         Optional<Account> oAccount = accountRepository.findById(body.accountNumber);
@@ -53,7 +54,7 @@ public class AccountController {
         }
     }
 
-    @PutMapping(path = "/deposit", produces = "application/json;charset=UTF-8")
+    @PutMapping(path = "/deposit", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> depositForAccount(@RequestBody AccountResource body) {
 
         Optional<Account> oAccount = accountRepository.findById(body.accountNumber);
@@ -97,7 +98,18 @@ public class AccountController {
         }
     }
 
-
+    @GetMapping(path = "/account", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> accoountForId(@RequestParam int accountId) {
+        Optional<Account> oAccount = accountRepository.findById(accountId);
+        if(oAccount.isPresent()) {
+            HashMap<String, Account> maps = new HashMap<>();
+            maps.put("account", oAccount.get());
+            final Gson gson = new Gson();
+            return new ResponseEntity<String>(gson.toJson(maps), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping(path = "/withdraw", produces = "application/json;charset=UTF-8")
     public ResponseEntity<String> exemplo() {
