@@ -85,9 +85,7 @@ public class AccountController {
         Iterable<Account> oAccount = accountRepository.findAll();
         List<Account> accounts = new ArrayList<>();
         if(oAccount != null) {
-            for (Account account : oAccount) {
-                accounts.add(account);
-            }
+            oAccount.forEach(accounts::add);
             HashMap<String, List<Account>> maps = new HashMap<>();
             maps.put("accounts", accounts);
             return new ResponseEntity<>(gson.toJson(maps), HttpStatus.OK);
