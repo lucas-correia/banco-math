@@ -1,18 +1,17 @@
 package com.banco.math.controller;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
-
 import com.banco.math.model.Account;
 import com.banco.math.repository.AccountRepository;
 import com.banco.math.resource.AccountResource;
-import com.fasterxml.jackson.core.JsonParser;
 import com.google.gson.Gson;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,20 +78,22 @@ public class AccountController {
         }
     }
 
-    @GetMapping(path = "/accountsList", produces = "application/json;charset=UTF-8")
+    @GetMapping(path = "/accountsList", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> accounstsList() {
 
+        final Gson gson = new Gson();
         Iterable<Account> oAccount = accountRepository.findAll();
-        JSONObject resp = new JSONObject();
-        JSONArray array = new JSONArray();
+        List<Account> accounts = new ArrayList<>();
         if(oAccount != null) {
             for (Account account : oAccount) {
-                array.put(account.toJSON());
+                accounts.add(account);
             }
-            resp.put("accounts", array);
-            return new ResponseEntity<>(resp.toString(), HttpStatus.OK);
+            HashMap<String, List<Account>> maps = new HashMap<>();
+            maps.put("accounts", accounts);
+            return new ResponseEntity<>(gson.toJson(maps), HttpStatus.OK);
             
         } else {
+            JSONObject resp = new JSONObject();
             resp.put("status", "Conta não encontrada!");
             return new ResponseEntity<>(resp.toString(), HttpStatus.NOT_FOUND);
         }
